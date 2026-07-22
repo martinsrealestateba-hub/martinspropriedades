@@ -1,0 +1,19 @@
+<svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Isotipo apenas, branco a 50% opacidade, conforme manual (seção 07) -->
+  <g opacity="0.5" stroke="#FFFFFF" stroke-width="2.2" fill="none" stroke-linecap="square" transform="translate(6,10)">
+    <line x1="0" y1="34" x2="0" y2="20"/>
+    <line x1="0" y1="20" x2="12" y2="20"/>
+    <line x1="12" y1="20" x2="12" y2="34"/>
+    <line x1="16" y1="34" x2="16" y2="24"/>
+    <line x1="16" y1="24" x2="24" y2="24"/>
+    <line x1="24" y1="24" x2="24" y2="34"/>
+    <path d="M28 34 L28 16 A9 9 0 0 1 46 16 L46 34"/>
+    <line x1="52" y1="34" x2="52" y2="4"/>
+    <path d="M47 4 L57 4 L52 -4 Z" fill="#FFFFFF" stroke="none"/>
+    <line x1="60" y1="34" x2="60" y2="22"/>
+    <line x1="60" y1="22" x2="70" y2="22"/>
+    <line x1="70" y1="22" x2="70" y2="34"/>
+    <path d="M74 34 L74 25 A8 8 0 0 1 90 25 L90 34"/>
+    <line x1="0" y1="34" x2="90" y2="34"/>
+  </g>
+</svg>

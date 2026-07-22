@@ -1,0 +1,28 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#FDFCFA"/>
+  <rect x="0" y="0" width="1200" height="630" fill="none" stroke="#D9C4A3" stroke-width="1"/>
+
+  <circle cx="600" cy="240" r="140" fill="none" stroke="#B08D5B" stroke-width="2.5"/>
+  <g stroke="#B08D5B" stroke-width="5" fill="none" stroke-linecap="square" transform="translate(490,190)">
+    <line x1="0" y1="90" x2="0" y2="55"/>
+    <line x1="0" y1="55" x2="30" y2="55"/>
+    <line x1="30" y1="55" x2="30" y2="90"/>
+    <line x1="38" y1="90" x2="38" y2="65"/>
+    <line x1="38" y1="65" x2="58" y2="65"/>
+    <line x1="58" y1="65" x2="58" y2="90"/>
+    <path d="M66 90 L66 45 A15 15 0 0 1 96 45 L96 90"/>
+    <line x1="112" y1="90" x2="112" y2="10"/>
+    <path d="M100 10 L124 10 L112 -12 Z" fill="#B08D5B" stroke="none"/>
+    <line x1="128" y1="90" x2="128" y2="50"/>
+    <line x1="128" y1="50" x2="150" y2="50"/>
+    <line x1="150" y1="50" x2="150" y2="90"/>
+    <path d="M158 90 L158 58 A13 13 0 0 1 184 58 L184 90"/>
+    <line x1="0" y1="90" x2="184" y2="90"/>
+  </g>
+
+  <text x="600" y="410" font-family="Playfair Display, Georgia, serif" font-size="56" fill="#2B2A28" text-anchor="middle" font-weight="600">Martins</text>
+  <text x="600" y="445" font-family="Montserrat, Arial, sans-serif" font-size="17" fill="#B08D5B" text-anchor="middle" letter-spacing="6">PROPIEDADES</text>
+  <text x="600" y="500" font-family="Montserrat, Arial, sans-serif" font-size="16" fill="#9B9B95" text-anchor="middle" letter-spacing="3">BUENOS AIRES</text>
+
+  <text x="600" y="560" font-family="Montserrat, Arial, sans-serif" font-size="18" fill="#9B9B95" text-anchor="middle">Propiedades seleccionadas — venta y alquiler en CABA</text>
+</svg>
