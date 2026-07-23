@@ -5,7 +5,7 @@ import ImovelCard from '@/components/imoveis/ImovelCard'
 export const revalidate = 300 // ISR: revalida a cada 5 minutos
 
 export default async function HomePage() {
-  const destacados = await getImoveisDestacados()
+  const { data: destacados, error } = await getImoveisDestacados()
 
   return (
     <div className="max-w-container mx-auto px-6 py-16 md:px-12">
@@ -41,7 +41,11 @@ export default async function HomePage() {
         <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-carbon">
           Destacadas
         </h2>
-        {destacados.length === 0 ? (
+        {error ? (
+          <p className="rounded-md border border-red-300 bg-red-50 p-4 text-sm text-red-700">
+            Error al conectar con Supabase: {error}
+          </p>
+        ) : destacados.length === 0 ? (
           <p className="text-sm text-gris">
             Todavía no hay propiedades destacadas cargadas. Agregalas desde el Table
             Editor de Supabase (columna &quot;destaque&quot; = true).
