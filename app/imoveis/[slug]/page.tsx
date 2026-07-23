@@ -14,10 +14,12 @@ export default async function DetalheImovelPage({
   params: { slug: string }
 }) {
   const imovel = await getImovelPorSlug(params.slug)
-  if (!imovel) notFound()
+  if (!imovel) {
+    notFound()
+  }
 
   const imagens = await getImagensDoImovel(imovel.id)
-  const numeroWhatsapp = '5491100000000' // TODO: trocar pelo número real
+  const numeroWhatsapp = '5491100000000'
   const mensagem = encodeURIComponent(
     `Hola! Me interesa la propiedad "${imovel.titulo}" (${imovel.bairro}).`
   )
@@ -29,11 +31,9 @@ export default async function DetalheImovelPage({
         <span className="text-carbon">{imovel.titulo}</span>
       </p>
 
-      {/* Galeria */}
       <div className="mb-6 grid grid-cols-3 gap-2">
         <div className="col-span-2 flex h-56 items-center justify-center rounded-xl bg-surface text-dorado/50 md:h-72">
           {imagens[0] ? (
-            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={imagens[0].url}
               alt={imovel.titulo}
@@ -46,7 +46,6 @@ export default async function DetalheImovelPage({
         <div className="flex flex-col gap-2">
           <div className="flex h-1/2 items-center justify-center overflow-hidden rounded-xl bg-surface text-dorado/50">
             {imagens[1] ? (
-              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={imagens[1].url}
                 alt={imovel.titulo}
@@ -58,7 +57,6 @@ export default async function DetalheImovelPage({
           </div>
           <div className="relative flex h-1/2 items-center justify-center overflow-hidden rounded-xl bg-surface text-dorado/50">
             {imagens[2] ? (
-              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={imagens[2].url}
                 alt={imovel.titulo}
@@ -79,7 +77,6 @@ export default async function DetalheImovelPage({
       {imagens.length > 3 && (
         <div className="mb-6 grid grid-cols-4 gap-2 md:grid-cols-6">
           {imagens.slice(3).map((img) => (
-            // eslint-disable-next-line @next/next/no-img-element
             <img
               key={img.id}
               src={img.url}
