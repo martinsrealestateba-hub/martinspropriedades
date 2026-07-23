@@ -7,7 +7,7 @@ export async function getImoveisDestacados(): Promise<{
 }> {
   const { data, error } = await supabase
     .from('imoveis')
-    .select('*')
+    .select('*, imagens_imovel(id, url, ordem, capa)')
     .eq('destaque', true)
     .neq('status', 'inativo')
     .limit(6)
@@ -28,7 +28,10 @@ export type FiltrosImovel = {
 }
 
 export async function getImoveis(filtros: FiltrosImovel = {}): Promise<Imovel[]> {
-  let query = supabase.from('imoveis').select('*').neq('status', 'inativo')
+  let query = supabase
+    .from('imoveis')
+    .select('*, imagens_imovel(id, url, ordem, capa)')
+    .neq('status', 'inativo')
 
   if (filtros.finalidade) query = query.eq('finalidade', filtros.finalidade)
   if (filtros.tipo) query = query.eq('tipo', filtros.tipo)
