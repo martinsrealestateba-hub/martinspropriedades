@@ -44,19 +44,51 @@ export default async function DetalheImovelPage({
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <div className="flex h-1/2 items-center justify-center rounded-xl bg-surface text-dorado/50">
-            <span className="text-xs">Foto</span>
+          <div className="flex h-1/2 items-center justify-center overflow-hidden rounded-xl bg-surface text-dorado/50">
+            {imagens[1] ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={imagens[1].url}
+                alt={imovel.titulo}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <span className="text-xs">Foto</span>
+            )}
           </div>
-          <div className="relative flex h-1/2 items-center justify-center rounded-xl bg-surface text-dorado/50">
-            <span className="text-xs">Foto</span>
-            {imagens.length > 2 && (
+          <div className="relative flex h-1/2 items-center justify-center overflow-hidden rounded-xl bg-surface text-dorado/50">
+            {imagens[2] ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={imagens[2].url}
+                alt={imovel.titulo}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <span className="text-xs">Foto</span>
+            )}
+            {imagens.length > 3 && (
               <span className="absolute bottom-2 right-2 rounded bg-carbon px-2 py-0.5 text-[10px] text-crema">
-                +{imagens.length - 2} fotos
+                +{imagens.length - 3} fotos
               </span>
             )}
           </div>
         </div>
       </div>
+
+      {imagens.length > 3 && (
+        <div className="mb-6 grid grid-cols-4 gap-2 md:grid-cols-6">
+          {imagens.slice(3).map((img) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={img.id}
+              src={img.url}
+              alt={imovel.titulo}
+              className="h-20 w-full rounded-lg object-cover"
+            />
+          ))}
+        </div>
+      )}
 
       <div className="mb-6 flex items-start justify-between">
         <div>
@@ -107,7 +139,7 @@ export default async function DetalheImovelPage({
             Escribinos y te respondemos al toque
           </div>
         </div>
-        <a
+        
           href={`https://wa.me/${numeroWhatsapp}?text=${mensagem}`}
           target="_blank"
           rel="noopener noreferrer"
