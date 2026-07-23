@@ -1,7 +1,10 @@
 import { supabase } from './client'
 import type { Imovel } from '@/types/imovel'
 
-export async function getImoveisDestacados(): Promise<Imovel[]> {
+export async function getImoveisDestacados(): Promise<{
+  data: Imovel[]
+  error: string | null
+}> {
   const { data, error } = await supabase
     .from('imoveis')
     .select('*')
@@ -11,9 +14,9 @@ export async function getImoveisDestacados(): Promise<Imovel[]> {
 
   if (error) {
     console.error('Error al buscar propiedades destacadas:', error.message)
-    return []
+    return { data: [], error: error.message }
   }
-  return data ?? []
+  return { data: data ?? [], error: null }
 }
 
 export type FiltrosImovel = {
