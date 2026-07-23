@@ -1,97 +1,96 @@
-import { getImoveis } from '@/lib/supabase/queries'
-import ImovelCard from '@/components/imoveis/ImovelCard'
+import { notFound } from 'next/navigation'
+import { getImovelPorSlug, getImagensDoImovel } from '@/lib/supabase/queries'
+import GaleriaImovel from '@/components/imoveis/GaleriaImovel'
 
-export const revalidate = 60
+export const revalidate = 300
 
-type SearchParams = {
-  finalidade?: 'venda' | 'aluguel'
-  tipo?: string
-  bairro?: string
-  precoMax?: string
+function formatarPreco(preco: number, finalidade: string) {
+  const valor = preco.toLocaleString('es-AR')
+  return finalidade === 'aluguel' ? `USD ${valor}/mes` : `USD ${valor}`
 }
 
-export default async function ListagemPage({
-  searchParams,
+export default async function DetalheImovelPage({
+  params,
 }: {
-  searchParams: SearchParams
+  params: { slug: string }
 }) {
-  const imoveis = await getImoveis({
-    finalidade: searchParams.finalidade,
-    tipo: searchParams.tipo,
-    bairro: searchParams.bairro,
-    precoMax: searchParams.precoMax ? Number(searchParams.precoMax) : undefined,
-  })
+  const imovel = await getImovelPorSlug(params.slug)
+  if (!imovel) {
+    notFound()
+  }
+
+  const imagens = await getImagensDoImovel(imovel.id)
+  const numeroWhatsapp = '5491100000000'
+  const mensagem = encodeURIComponent(
+    `Hola! Me interesa la propiedad "${imovel.titulo}" (${imovel.bairro}).`
+  )
 
   return (
     <div className="max-w-container mx-auto px-6 py-10 md:px-12">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="font-heading text-xl text-carbon">Propiedades</h1>
-        <span className="text-xs text-gris">
-          {imoveis.length} propiedad{imoveis.length !== 1 ? 'es' : ''} encontrada
-          {imoveis.length !== 1 ? 's' : ''}
-        </span>
+      <p className="mb-4 text-xs text-gris">
+        {imovel.finalidade === 'venda' ? 'Comprar' : 'Alquilar'} / {imovel.bairro} /{' '}
+        <span className="text-carbon">{imovel.titulo}</span>
+      </p>
+
+      <GaleriaImovel imagens={imagens} titulo={imovel.titulo} />
+
+      <div className="mb-6 flex items-start justify-between">
+        <div>
+          <h1 className="font-heading text-xl font-semibold text-carbon md:text-2xl">
+            {imovel.titulo}
+          </h1>
+          <p className="text-sm text-gris">
+            {imovel.bairro}, {imovel.cidade}
+          </p>
+        </div>
+        <div className="whitespace-nowrap text-2xl font-semibold text-dorado">
+          {formatarPreco(imovel.preco, imovel.finalidade)}
+        </div>
       </div>
 
-      <div className="flex flex-col gap-8 md:flex-row">
-        {/* Filtros */}
-        <aside className="w-full shrink-0 md:w-48">
-          <form className="flex flex-col gap-5">
-            <div>
-              <label className="mb-1 block text-xs text-gris">Barrio</label>
-              <input
-                name="bairro"
-                defaultValue={searchParams.bairro}
-                placeholder="Todos"
-                className="w-full rounded-md border border-dorado-light bg-white px-2 py-1.5 text-sm"
-              />
-            </div>
-            <div>
-              <label className="mb-1 block text-xs text-gris">Tipo</label>
-              <select
-                name="tipo"
-                defaultValue={searchParams.tipo}
-                className="w-full rounded-md border border-dorado-light bg-white px-2 py-1.5 text-sm"
-              >
-                <option value="">Todos</option>
-                <option value="apartamento">Departamento</option>
-                <option value="casa">Casa</option>
-                <option value="terreno">Terreno</option>
-                <option value="comercial">Comercial</option>
-              </select>
-            </div>
-            <div>
-              <label className="mb-1 block text-xs text-gris">Precio máx. USD</label>
-              <input
-                name="precoMax"
-                type="number"
-                defaultValue={searchParams.precoMax}
-                placeholder="Sin límite"
-                className="w-full rounded-md border border-dorado-light bg-white px-2 py-1.5 text-sm"
-              />
-            </div>
-            <button
-              type="submit"
-              className="rounded-md bg-dorado px-3 py-2 text-xs font-medium text-crema"
-            >
-              Aplicar filtros
-            </button>
-          </form>
-        </aside>
-
-        {/* Resultados */}
-        <div className="flex-1">
-          {imoveis.length === 0 ? (
-            <p className="text-sm text-gris">
-              No se encontraron propiedades con estos filtros.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {imoveis.map((imovel) => (
-                <ImovelCard key={imovel.id} imovel={imovel} />
-              ))}
-            </div>
-          )}
+      <div className="mb-6 grid grid-cols-4 divide-x divide-dorado-light border-y border-dorado-light py-4 text-center">
+        <div>
+          <div className="text-base font-semibold text-carbon">{imovel.quartos}</div>
+          <div className="text-[10px] text-gris">Ambientes</div>
         </div>
+        <div>
+          <div className="text-base font-semibold text-carbon">{imovel.banheiros}</div>
+          <div className="text-[10px] text-gris">Baños</div>
+        </div>
+        <div>
+          <div className="text-base font-semibold text-carbon">{imovel.vagas_garagem}</div>
+          <div className="text-[10px] text-gris">Cochera</div>
+        </div>
+        <div>
+          <div className="text-base font-semibold text-carbon">
+            {imovel.area_total ?? '—'}m²
+          </div>
+          <div className="text-[10px] text-gris">Superficie</div>
+        </div>
+      </div>
+
+      {imovel.descricao && (
+        <div className="mb-8">
+          <h2 className="mb-2 text-sm font-semibold text-carbon">Descripción</h2>
+          <p className="text-sm leading-relaxed text-gris">{imovel.descricao}</p>
+        </div>
+      )}
+
+      <div className="flex items-center justify-between rounded-xl border border-dorado-light bg-white p-4">
+        <div>
+          <div className="text-xs text-gris">¿Te interesa esta propiedad?</div>
+          <div className="text-sm font-medium text-carbon">
+            Escribinos y te respondemos al toque
+          </div>
+        </div>
+        
+          href={`https://wa.me/${numeroWhatsapp}?text=${mensagem}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-lg bg-dorado px-5 py-2.5 text-sm text-crema"
+        >
+          WhatsApp
+        </a>
       </div>
     </div>
   )
