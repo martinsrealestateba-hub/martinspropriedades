@@ -15,6 +15,7 @@ export type Imovel = {
   vagas_garagem: number
   status: 'disponivel' | 'reservado' | 'vendido' | 'alugado' | 'inativo'
   destaque: boolean
+  imagens_imovel?: ImagemImovel[]
 }
 
 export type ImagemImovel = {
