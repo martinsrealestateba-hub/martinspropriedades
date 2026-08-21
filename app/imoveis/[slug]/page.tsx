@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import { getImovelPorSlug, getImagensDoImovel } from '@/lib/supabase/queries'
 import GaleriaImovel from '@/components/imoveis/GaleriaImovel'
 
-export const revalidate = 60
+export const dynamic = 'force-dynamic'
 
 const TIPO_LABEL: Record<string, string> = {
   casa: 'Casa',
